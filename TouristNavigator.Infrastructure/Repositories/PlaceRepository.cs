@@ -12,8 +12,5 @@ namespace TouristNavigator.Infrastructure.Repositories
     public class PlaceRepository : BaseRepository<Place>, IPlaceRepository
     {
         public PlaceRepository(ApplicationDbContext context) : base(context) { }
-        
-             
-        
     }
 }

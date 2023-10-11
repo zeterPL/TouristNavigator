@@ -19,6 +19,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\TouristNavigator.Application.Security\TouristNavigator.Application.Security.csproj" />
+    <ProjectReference Include="..\TouristNavigator.Application\TouristNavigator.Application.csproj" />
     <ProjectReference Include="..\TouristNavigator.Domain\TouristNavigator.Domain.csproj" />
   </ItemGroup>
 
