@@ -5,15 +5,21 @@ VisualStudioVersion = 17.3.32929.385
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{2F085A4C-B750-46E7-B9D9-DEE7B76DE3B1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TouristNavigator.Domain", "TouristNavigator.Domain\TouristNavigator.Domain.csproj", "{A4893045-A82E-4E76-9286-031AE588C2A9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TouristNavigator.Domain", "TouristNavigator.Domain\TouristNavigator.Domain.csproj", "{A4893045-A82E-4E76-9286-031AE588C2A9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TouristNavigator.Infrastructure", "TouristNavigator.Infrastructure\TouristNavigator.Infrastructure.csproj", "{3221DE19-38EE-47C5-AD26-05ED28934CD4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TouristNavigator.Infrastructure", "TouristNavigator.Infrastructure\TouristNavigator.Infrastructure.csproj", "{3221DE19-38EE-47C5-AD26-05ED28934CD4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TouristNavigator.Application", "TouristNavigator.Application\TouristNavigator.Application.csproj", "{C0199944-34CC-4659-A5C4-2620305C7DDD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TouristNavigator.Application", "TouristNavigator.Application\TouristNavigator.Application.csproj", "{C0199944-34CC-4659-A5C4-2620305C7DDD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TouristNavigator.API", "TouristNavigator.API\TouristNavigator.API.csproj", "{16A059BB-8DD7-4E9E-9693-B1902EB4438C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TouristNavigator.API", "TouristNavigator.API\TouristNavigator.API.csproj", "{16A059BB-8DD7-4E9E-9693-B1902EB4438C}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{60047154-DDC7-4B21-857C-E0835E438FBB}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "API", "API", "{9CEE9677-6E7C-49B6-9100-3764026443F9}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{62701CE1-3E96-4D44-A09C-EED742B1D59F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TouristNavigator.Security", "TouristNavigator.Security\TouristNavigator.Security.csproj", "{13F866AF-86DA-43B2-89C0-587943FD55BD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -37,16 +43,23 @@ Global
 		{16A059BB-8DD7-4E9E-9693-B1902EB4438C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{16A059BB-8DD7-4E9E-9693-B1902EB4438C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{16A059BB-8DD7-4E9E-9693-B1902EB4438C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{13F866AF-86DA-43B2-89C0-587943FD55BD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{13F866AF-86DA-43B2-89C0-587943FD55BD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{13F866AF-86DA-43B2-89C0-587943FD55BD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{13F866AF-86DA-43B2-89C0-587943FD55BD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{A4893045-A82E-4E76-9286-031AE588C2A9} = {60047154-DDC7-4B21-857C-E0835E438FBB}
-		{3221DE19-38EE-47C5-AD26-05ED28934CD4} = {2F085A4C-B750-46E7-B9D9-DEE7B76DE3B1}
+		{3221DE19-38EE-47C5-AD26-05ED28934CD4} = {62701CE1-3E96-4D44-A09C-EED742B1D59F}
 		{C0199944-34CC-4659-A5C4-2620305C7DDD} = {60047154-DDC7-4B21-857C-E0835E438FBB}
-		{16A059BB-8DD7-4E9E-9693-B1902EB4438C} = {2F085A4C-B750-46E7-B9D9-DEE7B76DE3B1}
+		{16A059BB-8DD7-4E9E-9693-B1902EB4438C} = {9CEE9677-6E7C-49B6-9100-3764026443F9}
 		{60047154-DDC7-4B21-857C-E0835E438FBB} = {2F085A4C-B750-46E7-B9D9-DEE7B76DE3B1}
+		{9CEE9677-6E7C-49B6-9100-3764026443F9} = {2F085A4C-B750-46E7-B9D9-DEE7B76DE3B1}
+		{62701CE1-3E96-4D44-A09C-EED742B1D59F} = {2F085A4C-B750-46E7-B9D9-DEE7B76DE3B1}
+		{13F866AF-86DA-43B2-89C0-587943FD55BD} = {62701CE1-3E96-4D44-A09C-EED742B1D59F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B6CFC4B6-C746-4024-9F48-205A8B78D6D1}
