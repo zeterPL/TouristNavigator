@@ -1,0 +1,54 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.3.32929.385
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{2F085A4C-B750-46E7-B9D9-DEE7B76DE3B1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TouristNavigator.Domain", "TouristNavigator.Domain\TouristNavigator.Domain.csproj", "{A4893045-A82E-4E76-9286-031AE588C2A9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TouristNavigator.Infrastructure", "TouristNavigator.Infrastructure\TouristNavigator.Infrastructure.csproj", "{3221DE19-38EE-47C5-AD26-05ED28934CD4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TouristNavigator.Application", "TouristNavigator.Application\TouristNavigator.Application.csproj", "{C0199944-34CC-4659-A5C4-2620305C7DDD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TouristNavigator.API", "TouristNavigator.API\TouristNavigator.API.csproj", "{16A059BB-8DD7-4E9E-9693-B1902EB4438C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{60047154-DDC7-4B21-857C-E0835E438FBB}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A4893045-A82E-4E76-9286-031AE588C2A9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A4893045-A82E-4E76-9286-031AE588C2A9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A4893045-A82E-4E76-9286-031AE588C2A9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A4893045-A82E-4E76-9286-031AE588C2A9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3221DE19-38EE-47C5-AD26-05ED28934CD4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3221DE19-38EE-47C5-AD26-05ED28934CD4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3221DE19-38EE-47C5-AD26-05ED28934CD4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3221DE19-38EE-47C5-AD26-05ED28934CD4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C0199944-34CC-4659-A5C4-2620305C7DDD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C0199944-34CC-4659-A5C4-2620305C7DDD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C0199944-34CC-4659-A5C4-2620305C7DDD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C0199944-34CC-4659-A5C4-2620305C7DDD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{16A059BB-8DD7-4E9E-9693-B1902EB4438C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{16A059BB-8DD7-4E9E-9693-B1902EB4438C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{16A059BB-8DD7-4E9E-9693-B1902EB4438C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{16A059BB-8DD7-4E9E-9693-B1902EB4438C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{A4893045-A82E-4E76-9286-031AE588C2A9} = {60047154-DDC7-4B21-857C-E0835E438FBB}
+		{3221DE19-38EE-47C5-AD26-05ED28934CD4} = {2F085A4C-B750-46E7-B9D9-DEE7B76DE3B1}
+		{C0199944-34CC-4659-A5C4-2620305C7DDD} = {60047154-DDC7-4B21-857C-E0835E438FBB}
+		{16A059BB-8DD7-4E9E-9693-B1902EB4438C} = {2F085A4C-B750-46E7-B9D9-DEE7B76DE3B1}
+		{60047154-DDC7-4B21-857C-E0835E438FBB} = {2F085A4C-B750-46E7-B9D9-DEE7B76DE3B1}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B6CFC4B6-C746-4024-9F48-205A8B78D6D1}
+	EndGlobalSection
+EndGlobal
