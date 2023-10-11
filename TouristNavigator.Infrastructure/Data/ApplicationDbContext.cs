@@ -10,6 +10,11 @@ namespace TouristNavigator.Infrastructure.Data
 {
     public class ApplicationDbContext : DbContext
     {
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
+           : base(options)
+        {
+        }
+
         DbSet<ApplicationUser> Users { get; set; }
         DbSet<Place> Places { get; set; }
     }

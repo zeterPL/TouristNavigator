@@ -1,37 +1,51 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TouristNavigator.Application.Interfaces.Repositories;
+using TouristNavigator.Infrastructure.Data;
 
 namespace TouristNavigator.Infrastructure.Repositories
 {
     public class BaseRepository<T> : IBaseRepository<T> where T : class
     {
-        public Task AddAsync(T entity)
+        protected readonly ApplicationDbContext _context;
+
+        public BaseRepository(ApplicationDbContext context)
         {
-            throw new NotImplementedException();
+            _context = context;
         }
 
-        public Task DeleteAsync(T entity)
+        public async Task<T> AddAsync(T entity)
         {
-            throw new NotImplementedException();
+            await _context.Set<T>().AddAsync(entity);
+            await _context.SaveChangesAsync();
+
+            return entity;
         }
 
-        public Task<IEnumerable<T>> GetAllAsync()
+        public async Task DeleteAsync(T entity)
         {
-            throw new NotImplementedException();
+            _context.Set<T>().Remove(entity);
+            await _context.SaveChangesAsync();
         }
 
-        public Task<T> GetAsync(int id)
+        public async Task<IEnumerable<T>> GetAllAsync()
         {
-            throw new NotImplementedException();
+            return await _context.Set<T>().ToListAsync();
         }
 
-        public Task UpdateAsync(T entity)
+        public async Task<T> GetAsync(int id)
         {
-            throw new NotImplementedException();
+            return await _context.Set<T>().FindAsync(id);
+        }
+
+        public async Task UpdateAsync(T entity)
+        {
+            _context.Entry(entity).State = EntityState.Modified;
+            await _context.SaveChangesAsync();  
         }
     }
 }
