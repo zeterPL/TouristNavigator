@@ -6,6 +6,7 @@ using Newtonsoft.Json;
 using System.Text;
 using TouristNavigator.Application.Interfaces.Repositories;
 using TouristNavigator.Application.Security.Interfaces;
+using TouristNavigator.Application.Security.Models;
 using TouristNavigator.Domain.Entities;
 using TouristNavigator.Infrastructure;
 using TouristNavigator.Infrastructure.Repositories;
@@ -15,6 +16,8 @@ using TouristNavigator.Infrastructure.Security.Services;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+var section = builder.Configuration.GetSection("JsonTokensSettings");
+builder.Services.Configure<JsonTokensSettings>(section);
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
@@ -43,9 +46,9 @@ builder.Services.AddAuthentication(options =>
           ValidateAudience = true,
           ValidateLifetime = true,
           ClockSkew = TimeSpan.Zero,
-          ValidIssuer = builder.Configuration["JSONWebTokensSettings:Issuer"],
-          ValidAudience = builder.Configuration["JSONWebTokensSettings:Audience"],
-          IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JSONWebTokensSettings:Key"]))
+          ValidIssuer = builder.Configuration["JsonTokensSettings:Issuer"],
+          ValidAudience = builder.Configuration["JsonTokensSettings:Audience"],
+          IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JsonTokensSettings:Key"]))
       };
 
       o.Events = new JwtBearerEvents()

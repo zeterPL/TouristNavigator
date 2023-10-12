@@ -87,12 +87,13 @@ namespace TouristNavigator.Infrastructure.Security.Services
                 roleClaims.Add(new Claim(ClaimTypes.Role, roles[i]));
             }
 
+
             var claims = new[]
             {
-                  new Claim(JwtRegisteredClaimNames.Sub, user.UserName),
+                  new Claim(JwtRegisteredClaimNames.NameId, user.UserName),
                   new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                   new Claim(JwtRegisteredClaimNames.Email, user.Email),
-                  new Claim("uid", user.Id.ToString()),
+                  new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
                   new Claim(ClaimTypes.Role,"adminEdu")
             }
             .Union(userClaims)
