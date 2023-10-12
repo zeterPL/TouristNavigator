@@ -43,7 +43,7 @@ namespace TouristNavigator.Infrastructure.Security.Services
 
             if(tmpUser != null)
             {
-                throw new Exception($"Username '{request.UserName}' already exists.");
+                //throw new Exception($"Username '{request.UserName}' already exists.");
             }
 
             var user = new ApplicationUser

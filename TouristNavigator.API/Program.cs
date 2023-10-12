@@ -7,7 +7,7 @@ using System.Text;
 using TouristNavigator.Application.Interfaces.Repositories;
 using TouristNavigator.Application.Security.Interfaces;
 using TouristNavigator.Domain.Entities;
-using TouristNavigator.Infrastructure.Data;
+using TouristNavigator.Infrastructure;
 using TouristNavigator.Infrastructure.Repositories;
 using TouristNavigator.Infrastructure.Security.Manager;
 using TouristNavigator.Infrastructure.Security.Services;
@@ -24,9 +24,9 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IPlaceRepository, PlaceRepository>();
 
-builder.Services.AddSingleton<IUserManager<ApplicationUser>, UserManager>();
-builder.Services.AddSingleton<ISignInManager<ApplicationUser>, SignInManager>();
-builder.Services.AddTransient<IAuthenticationService, AuthenticationService>();
+builder.Services.AddScoped<IUserManager<ApplicationUser>, UserManager>();
+builder.Services.AddScoped<ISignInManager<ApplicationUser>, SignInManager>();
+builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
 
 builder.Services.AddAuthentication(options =>
 {

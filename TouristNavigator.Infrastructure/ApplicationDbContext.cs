@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TouristNavigator.Domain.Entities;
 
-namespace TouristNavigator.Infrastructure.Data
+namespace TouristNavigator.Infrastructure
 {
     public class ApplicationDbContext : DbContext
     {
@@ -15,7 +15,17 @@ namespace TouristNavigator.Infrastructure.Data
         {
         }
 
+        public ApplicationDbContext()
+        {
+                
+        }
+
         DbSet<ApplicationUser> Users { get; set; }
         DbSet<Place> Places { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+        }
     }
 }
