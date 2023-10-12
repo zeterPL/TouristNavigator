@@ -1,25 +1,113 @@
-﻿using Microsoft.AspNetCore.Http;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using System.Threading.Tasks;
 using TouristNavigator.Application.Security.Interfaces;
 using TouristNavigator.Application.Security.Models;
+using TouristNavigator.Domain.Entities;
 
 namespace TouristNavigator.Infrastructure.Security.Services
 {
     public class AuthenticationService : IAuthenticationService
     {
-        public Task<AuthenticationResponse> AuthenticateAsync(AuthenticationRequest request)
+        private IUserManager<ApplicationUser> _userManager;
+        private readonly JsonTokensSettings _jwtSettings;
+
+        public AuthenticationService(IUserManager<ApplicationUser> userManager,
+         IOptions<JsonTokensSettings> jwtSettings)
         {
-            throw new NotImplementedException();
+            _userManager = userManager;
+            _jwtSettings = jwtSettings.Value;
         }
 
-        public Task<RegistrationResponse> RegisterAsync(RegistrationRequest request)
+        public async Task<AuthenticationResponse> AuthenticateAsync(AuthenticationRequest request)
         {
-            throw new NotImplementedException();
+            var user = await _userManager.FindByEmailAsync(request.Email);
+
+            JwtSecurityToken token = await GenerateToken(user);
+
+            AuthenticationResponse response = new AuthenticationResponse()
+            {
+                Id = user.Id,
+                UserName = user.UserName,
+                Email = user.Email,
+                Token = new JwtSecurityTokenHandler().WriteToken(token),
+            };
+            return response;
+        }
+
+        public async Task<RegistrationResponse> RegisterAsync(RegistrationRequest request)
+        {
+            var tmpUser = _userManager.FindByNameAsync(request.UserName);
+
+            if(tmpUser != null)
+            {
+                throw new Exception($"Username '{request.UserName}' already exists.");
+            }
+
+            var user = new ApplicationUser
+            {
+                Email = request.Email,
+                FirstName = request.FirstName,
+                LastName = request.LastName,
+                UserName = request.UserName,
+                Password = request.Password,
+            };
+
+            var existingEmail = await _userManager.FindByEmailAsync(request.Email);
+            if (existingEmail == null)
+            {
+                var result = await _userManager.CreateAsync(user);
+
+                if (result.Succeeded)
+                {
+                    return new RegistrationResponse() { UserId = user.Id };
+                }
+                else
+                {
+                    throw new Exception($"{result.Errors}");
+                }
+            }
+            else
+            {
+                throw new Exception($"Email {request.Email} already exists.");
+            }
+        }
+
+        private async Task<JwtSecurityToken> GenerateToken(ApplicationUser user)
+        {
+            var userClaims = await _userManager.GetClaimsAsync(user);
+            var roles = await _userManager.GetRolesAsync(user);
+
+            var roleClaims = new List<Claim>();
+
+            for (int i = 0; i < roles.Count; i++)
+            {
+                roleClaims.Add(new Claim(ClaimTypes.Role, roles[i]));
+            }
+
+            var claims = new[]
+            {
+                  new Claim(JwtRegisteredClaimNames.Sub, user.UserName),
+                  new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                  new Claim(JwtRegisteredClaimNames.Email, user.Email),
+                  new Claim("uid", user.Id.ToString()),
+                  new Claim(ClaimTypes.Role,"adminEdu")
+            }
+            .Union(userClaims)
+            .Union(roleClaims);
+
+            var symmetricSecurityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtSettings.Key));
+            var signingCredentials = new SigningCredentials(symmetricSecurityKey, SecurityAlgorithms.HmacSha256);
+
+            var jwtSecurityToken = new JwtSecurityToken(
+                issuer: _jwtSettings.Issuer,
+                audience: _jwtSettings.Audience,
+                claims: claims,
+                expires: DateTime.UtcNow.AddMinutes(double.Parse(_jwtSettings.DurationInMinutes)),
+                signingCredentials: signingCredentials);
+            return jwtSecurityToken;
         }
     }
 }

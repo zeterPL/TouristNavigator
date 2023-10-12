@@ -22,6 +22,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\TouristNavigator.Application.Security\TouristNavigator.Application.Security.csproj" />
+    <ProjectReference Include="..\TouristNavigator.Infrastructure.Security\TouristNavigator.Infrastructure.Security.csproj" />
     <ProjectReference Include="..\TouristNavigator.Infrastructure\TouristNavigator.Infrastructure.csproj" />
   </ItemGroup>
 

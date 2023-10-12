@@ -48,14 +48,22 @@ namespace TouristNavigator.Infrastructure.Security.Manager
             return Task.FromResult(users);
         }
 
-        public Task<IList<Claim>> GetClaimsAsync()
+        public Task<List<Claim>> GetClaimsAsync(ApplicationUser user)
         {
-            throw new NotImplementedException();
+            //TODO
+            Claim c = new Claim("MyCos", "MyValue");
+            var lis = new List<Claim>();
+            lis.Add(c);
+            return Task.FromResult(lis);
         }
 
-        public Task<IList<string>> GetRolesAsync()
+        public Task<List<string>> GetRolesAsync(ApplicationUser user)
         {
-            throw new NotImplementedException();
+            //TODO
+            string c = "User";
+            var lis = new List<string>();
+            lis.Add(c);
+            return Task.FromResult(lis);
         }
     }
 }

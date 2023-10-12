@@ -1,7 +1,16 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
+using Newtonsoft.Json;
+using System.Text;
 using TouristNavigator.Application.Interfaces.Repositories;
+using TouristNavigator.Application.Security.Interfaces;
+using TouristNavigator.Domain.Entities;
 using TouristNavigator.Infrastructure.Data;
 using TouristNavigator.Infrastructure.Repositories;
+using TouristNavigator.Infrastructure.Security.Manager;
+using TouristNavigator.Infrastructure.Security.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,10 +24,104 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IPlaceRepository, PlaceRepository>();
 
+builder.Services.AddSingleton<IUserManager<ApplicationUser>, UserManager>();
+builder.Services.AddSingleton<ISignInManager<ApplicationUser>, SignInManager>();
+builder.Services.AddTransient<IAuthenticationService, AuthenticationService>();
+
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+}).AddJwtBearer(o =>
+  {
+      o.RequireHttpsMetadata = false;
+      o.SaveToken = false;
+      o.TokenValidationParameters = new TokenValidationParameters
+      {
+          ValidateIssuerSigningKey = true,
+          ValidateIssuer = true,
+          ValidateAudience = true,
+          ValidateLifetime = true,
+          ClockSkew = TimeSpan.Zero,
+          ValidIssuer = builder.Configuration["JSONWebTokensSettings:Issuer"],
+          ValidAudience = builder.Configuration["JSONWebTokensSettings:Audience"],
+          IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JSONWebTokensSettings:Key"]))
+      };
+
+      o.Events = new JwtBearerEvents()
+      {
+          OnAuthenticationFailed = c =>
+          {
+              c.NoResult();
+              c.Response.StatusCode = 500;
+              c.Response.ContentType = "text/plain";
+              return c.Response.WriteAsync(c.Exception.ToString());
+          },
+          OnChallenge = context =>
+          {
+              context.HandleResponse();
+              context.Response.StatusCode = 401;
+              context.Response.ContentType = "application/json";
+              var result = JsonConvert.SerializeObject("401 Not authorized");
+              return context.Response.WriteAsync(result);
+          },
+          OnForbidden = context =>
+          {
+              context.Response.StatusCode = 403;
+              context.Response.ContentType = "application/json";
+              var result = JsonConvert.SerializeObject("403 Not authorized");
+              return context.Response.WriteAsync(result);
+          },
+      };
+  });
+
 builder.Services.AddControllers();
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("Open",
+        builder => builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
+});
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(c =>
+{
+    c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        Description = @"JWT Authorization header using the Bearer scheme. \r\n\r\n 
+              Enter 'Bearer' [space] and then your token in the text input below.
+              \r\n\r\nExample: 'Bearer 12345abcdef'",
+        Name = "Authorization",
+        In = ParameterLocation.Header,
+        Type = SecuritySchemeType.ApiKey,
+        Scheme = "Bearer"
+    });
+
+    c.AddSecurityRequirement(new OpenApiSecurityRequirement()
+          {
+            {
+              new OpenApiSecurityScheme
+              {
+                Reference = new OpenApiReference
+                  {
+                    Type = ReferenceType.SecurityScheme,
+                    Id = "Bearer"
+                  },
+                  Scheme = "oauth2",
+                  Name = "Bearer",
+                  In = ParameterLocation.Header,
+
+                },
+                new List<string>()
+              }
+            });
+
+    c.SwaggerDoc("v1", new OpenApiInfo
+    {
+        Version = "v1",
+        Title = "Samurai API",
+    });
+
+});
 
 var app = builder.Build();
 
@@ -26,7 +129,11 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwaggerUI(c =>
+    {
+        c.SwaggerEndpoint("/swagger/v1/swagger.json", "TouristNavigator API");
+    });
+  
 }
 
 app.UseHttpsRedirection();

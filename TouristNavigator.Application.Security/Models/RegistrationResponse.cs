@@ -8,6 +8,6 @@ namespace TouristNavigator.Application.Security.Models
 {
     public class RegistrationResponse
     {
-        public string UserId { get; set; }
+        public int UserId { get; set; }
     }
 }
