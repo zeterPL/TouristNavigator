@@ -10,7 +10,7 @@ namespace TouristNavigator.Application.Security.Interfaces
 {
     public interface IUserManager<TUser> where TUser : class
     {
-        Task<IEnumerable<TUser>> GetAllAsync();
+        Task<List<TUser>> GetAllAsync();
         Task<List<string>> GetRolesAsync(TUser user);
         Task<List<Claim>> GetClaimsAsync(TUser user);
         Task<TUser> FindByEmailAsync(string email);

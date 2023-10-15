@@ -42,7 +42,7 @@ namespace TouristNavigator.Infrastructure.Security.Manager
             return Task.FromResult(user);
         }
 
-        public Task<IEnumerable<ApplicationUser>> GetAllAsync()
+        public Task<List<ApplicationUser>> GetAllAsync()
         {
             var users = _userRepository.GetAllAsync().Result;
             return Task.FromResult(users);

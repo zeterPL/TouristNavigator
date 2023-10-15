@@ -9,5 +9,6 @@ namespace TouristNavigator.Application.Interfaces.Repositories
 {
     public interface IUserRepository : IBaseRepository<ApplicationUser>
     {
+        Task<List<Place>> GetUserPlacesAsync(int userId);
     }
 }

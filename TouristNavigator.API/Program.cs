@@ -5,8 +5,10 @@ using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
 using System.Text;
 using TouristNavigator.Application.Interfaces.Repositories;
+using TouristNavigator.Application.Interfaces.Services;
 using TouristNavigator.Application.Security.Interfaces;
 using TouristNavigator.Application.Security.Models;
+using TouristNavigator.Application.Services;
 using TouristNavigator.Domain.Entities;
 using TouristNavigator.Infrastructure;
 using TouristNavigator.Infrastructure.Repositories;
@@ -30,6 +32,9 @@ builder.Services.AddScoped<IPlaceRepository, PlaceRepository>();
 builder.Services.AddScoped<IUserManager<ApplicationUser>, UserManager>();
 builder.Services.AddScoped<ISignInManager<ApplicationUser>, SignInManager>();
 builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
+
+builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IPlaceService, PlaceService>();
 
 builder.Services.AddAuthentication(options =>
 {
@@ -121,7 +126,7 @@ builder.Services.AddSwaggerGen(c =>
     c.SwaggerDoc("v1", new OpenApiInfo
     {
         Version = "v1",
-        Title = "Samurai API",
+        Title = "TouristNavigator API",
     });
 
 });
@@ -136,10 +141,12 @@ if (app.Environment.IsDevelopment())
     {
         c.SwaggerEndpoint("/swagger/v1/swagger.json", "TouristNavigator API");
     });
-  
+   
 }
 
-app.UseHttpsRedirection();
+
+
+//app.UseHttpsRedirection();
 
 app.UseAuthorization();
 

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,5 +12,10 @@ namespace TouristNavigator.Infrastructure.Repositories
     public class UserRepository : BaseRepository<ApplicationUser>, IUserRepository
     {
         public UserRepository(ApplicationDbContext context) : base(context) { }
+
+        public async Task<List<Place>> GetUserPlacesAsync(int userId)
+        {
+            return await _context.Set<Place>().Where(p => p.OwnerId == userId).ToListAsync();
+        }
     }
 }
