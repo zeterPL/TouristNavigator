@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using TouristNavigator.Application.Dto;
 using TouristNavigator.Application.Interfaces.Services;
 using TouristNavigator.Application.Services;
 using TouristNavigator.Domain.Entities;
@@ -7,7 +8,7 @@ using TouristNavigator.Domain.Entities;
 namespace TouristNavigator.API.Controllers
 {
     [Route("place")]
-    [Authorize]
+   // [Authorize]
     public class PlaceController : Controller
     {
         private readonly IPlaceService _placeService;
@@ -37,10 +38,10 @@ namespace TouristNavigator.API.Controllers
             return Ok();
         }
 
-        [HttpDelete("removeplace", Name = "RemovePlace")]
-        public async Task<ActionResult> RemovePlace(Place place)
+        [HttpDelete("removeplace/{id}", Name = "RemovePlace")]
+        public async Task<ActionResult> RemovePlace(int id)
         {
-            await _placeService.RemoveAsync(place);
+            await _placeService.RemoveAsync(id);
             return Ok();
         }
 
@@ -49,6 +50,12 @@ namespace TouristNavigator.API.Controllers
         {
             await _placeService.CreateAsync(place);
             return Ok();
+        }
+
+        [HttpGet("review/{id}")]
+        public async Task<ActionResult<List<ReviewDto>>> GetPlaceReviews(int id)
+        {
+            return Ok(await _placeService.GetPlaceReviews(id));
         }
     }
 }

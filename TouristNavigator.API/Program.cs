@@ -28,6 +28,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IPlaceRepository, PlaceRepository>();
+builder.Services.AddScoped<IReviewRepository, ReviewRepository>();
 
 builder.Services.AddScoped<IUserManager<ApplicationUser>, UserManager>();
 builder.Services.AddScoped<ISignInManager<ApplicationUser>, SignInManager>();
@@ -35,6 +36,7 @@ builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
 
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IPlaceService, PlaceService>();
+builder.Services.AddScoped<IReviewService, ReviewService>();
 
 builder.Services.AddAuthentication(options =>
 {

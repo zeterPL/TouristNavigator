@@ -22,10 +22,17 @@ namespace TouristNavigator.Infrastructure
 
         DbSet<ApplicationUser> Users { get; set; }
         DbSet<Place> Places { get; set; }
+        DbSet<Review> Reviews { get; set; }
+        DbSet<Category> Categories { get; set; }
+        DbSet<PlaceCategory> PlacesCategories { get; set; }
+        DbSet<UserPreferences> UserPreferences { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<PlaceCategory>().HasKey(pc => new { pc.PlaceId, pc.CategoryId });
+            modelBuilder.Entity<UserPreferences>().HasKey(up => new { up.UserId, up.CategoryId });
         }
     }
 }

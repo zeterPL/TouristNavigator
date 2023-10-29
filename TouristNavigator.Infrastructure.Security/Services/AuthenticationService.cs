@@ -94,7 +94,7 @@ namespace TouristNavigator.Infrastructure.Security.Services
                   new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                   new Claim(JwtRegisteredClaimNames.Email, user.Email),
                   new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
-                  new Claim(ClaimTypes.Role,"adminEdu")
+                  new Claim(ClaimTypes.Role,"admin")
             }
             .Union(userClaims)
             .Union(roleClaims);

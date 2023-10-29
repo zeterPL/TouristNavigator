@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TouristNavigator.Application.Dto;
 using TouristNavigator.Domain.Entities;
 
 namespace TouristNavigator.Application.Interfaces.Services
@@ -11,9 +12,11 @@ namespace TouristNavigator.Application.Interfaces.Services
     {
         public Task<List<Place>> GetAllAsync();
         public Task<Place> GetByIdAsync(int id);
-        public Task RemoveAsync(Place place);
+        public Task RemoveAsync(int id);
         public Task UpdateAsync(Place place);
         public Task CreateAsync(Place place);
+
+        public Task<List<ReviewDto>> GetPlaceReviews(int id);
         
     }
 }

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TouristNavigator.Infrastructure;
 
@@ -11,9 +12,11 @@ using TouristNavigator.Infrastructure;
 namespace TouristNavigator.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231015160644_review-entity")]
+    partial class reviewentity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -55,27 +58,6 @@ namespace TouristNavigator.Infrastructure.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("TouristNavigator.Domain.Entities.Category", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<byte[]>("IconData")
-                        .IsRequired()
-                        .HasColumnType("varbinary(max)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Categories");
-                });
-
             modelBuilder.Entity("TouristNavigator.Domain.Entities.Place", b =>
                 {
                     b.Property<int>("Id")
@@ -103,21 +85,6 @@ namespace TouristNavigator.Infrastructure.Migrations
                     b.HasIndex("ApplicationUserId");
 
                     b.ToTable("Places");
-                });
-
-            modelBuilder.Entity("TouristNavigator.Domain.Entities.PlaceCategory", b =>
-                {
-                    b.Property<int>("PlaceId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("CategoryId")
-                        .HasColumnType("int");
-
-                    b.HasKey("PlaceId", "CategoryId");
-
-                    b.HasIndex("CategoryId");
-
-                    b.ToTable("PlacesCategories");
                 });
 
             modelBuilder.Entity("TouristNavigator.Domain.Entities.Review", b =>
@@ -153,21 +120,6 @@ namespace TouristNavigator.Infrastructure.Migrations
                     b.ToTable("Reviews");
                 });
 
-            modelBuilder.Entity("TouristNavigator.Domain.Entities.UserPreferences", b =>
-                {
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("CategoryId")
-                        .HasColumnType("int");
-
-                    b.HasKey("UserId", "CategoryId");
-
-                    b.HasIndex("CategoryId");
-
-                    b.ToTable("UserPreferences");
-                });
-
             modelBuilder.Entity("TouristNavigator.Domain.Entities.Place", b =>
                 {
                     b.HasOne("TouristNavigator.Domain.Entities.ApplicationUser", null)
@@ -175,59 +127,21 @@ namespace TouristNavigator.Infrastructure.Migrations
                         .HasForeignKey("ApplicationUserId");
                 });
 
-            modelBuilder.Entity("TouristNavigator.Domain.Entities.PlaceCategory", b =>
-                {
-                    b.HasOne("TouristNavigator.Domain.Entities.Category", "Category")
-                        .WithMany("RelatedPlaces")
-                        .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("TouristNavigator.Domain.Entities.Place", "Place")
-                        .WithMany("Categories")
-                        .HasForeignKey("PlaceId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Category");
-
-                    b.Navigation("Place");
-                });
-
             modelBuilder.Entity("TouristNavigator.Domain.Entities.Review", b =>
                 {
                     b.HasOne("TouristNavigator.Domain.Entities.Place", "Place")
-                        .WithMany("Reviews")
+                        .WithMany()
                         .HasForeignKey("PlaceId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("TouristNavigator.Domain.Entities.ApplicationUser", "User")
-                        .WithMany("Reviews")
+                        .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Place");
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("TouristNavigator.Domain.Entities.UserPreferences", b =>
-                {
-                    b.HasOne("TouristNavigator.Domain.Entities.Category", "Category")
-                        .WithMany("RelatedUsers")
-                        .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("TouristNavigator.Domain.Entities.ApplicationUser", "User")
-                        .WithMany("UserPreferences")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Category");
 
                     b.Navigation("User");
                 });
@@ -235,24 +149,6 @@ namespace TouristNavigator.Infrastructure.Migrations
             modelBuilder.Entity("TouristNavigator.Domain.Entities.ApplicationUser", b =>
                 {
                     b.Navigation("OwnedPlaces");
-
-                    b.Navigation("Reviews");
-
-                    b.Navigation("UserPreferences");
-                });
-
-            modelBuilder.Entity("TouristNavigator.Domain.Entities.Category", b =>
-                {
-                    b.Navigation("RelatedPlaces");
-
-                    b.Navigation("RelatedUsers");
-                });
-
-            modelBuilder.Entity("TouristNavigator.Domain.Entities.Place", b =>
-                {
-                    b.Navigation("Categories");
-
-                    b.Navigation("Reviews");
                 });
 #pragma warning restore 612, 618
         }

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TouristNavigator.Infrastructure;
 
@@ -11,9 +12,11 @@ using TouristNavigator.Infrastructure;
 namespace TouristNavigator.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231029193115_place-categories")]
+    partial class placecategories
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -87,6 +90,9 @@ namespace TouristNavigator.Infrastructure.Migrations
                     b.Property<int?>("ApplicationUserId")
                         .HasColumnType("int");
 
+                    b.Property<int?>("CategoryId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -101,6 +107,8 @@ namespace TouristNavigator.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("ApplicationUserId");
+
+                    b.HasIndex("CategoryId");
 
                     b.ToTable("Places");
                 });
@@ -153,32 +161,21 @@ namespace TouristNavigator.Infrastructure.Migrations
                     b.ToTable("Reviews");
                 });
 
-            modelBuilder.Entity("TouristNavigator.Domain.Entities.UserPreferences", b =>
-                {
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("CategoryId")
-                        .HasColumnType("int");
-
-                    b.HasKey("UserId", "CategoryId");
-
-                    b.HasIndex("CategoryId");
-
-                    b.ToTable("UserPreferences");
-                });
-
             modelBuilder.Entity("TouristNavigator.Domain.Entities.Place", b =>
                 {
                     b.HasOne("TouristNavigator.Domain.Entities.ApplicationUser", null)
                         .WithMany("OwnedPlaces")
                         .HasForeignKey("ApplicationUserId");
+
+                    b.HasOne("TouristNavigator.Domain.Entities.Category", null)
+                        .WithMany("RelatedPlaces")
+                        .HasForeignKey("CategoryId");
                 });
 
             modelBuilder.Entity("TouristNavigator.Domain.Entities.PlaceCategory", b =>
                 {
                     b.HasOne("TouristNavigator.Domain.Entities.Category", "Category")
-                        .WithMany("RelatedPlaces")
+                        .WithMany()
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -213,39 +210,16 @@ namespace TouristNavigator.Infrastructure.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("TouristNavigator.Domain.Entities.UserPreferences", b =>
-                {
-                    b.HasOne("TouristNavigator.Domain.Entities.Category", "Category")
-                        .WithMany("RelatedUsers")
-                        .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("TouristNavigator.Domain.Entities.ApplicationUser", "User")
-                        .WithMany("UserPreferences")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Category");
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("TouristNavigator.Domain.Entities.ApplicationUser", b =>
                 {
                     b.Navigation("OwnedPlaces");
 
                     b.Navigation("Reviews");
-
-                    b.Navigation("UserPreferences");
                 });
 
             modelBuilder.Entity("TouristNavigator.Domain.Entities.Category", b =>
                 {
                     b.Navigation("RelatedPlaces");
-
-                    b.Navigation("RelatedUsers");
                 });
 
             modelBuilder.Entity("TouristNavigator.Domain.Entities.Place", b =>

@@ -16,5 +16,7 @@ namespace TouristNavigator.Domain.Entities
         public string Password { get; set; }
 
         public virtual ICollection<Place> OwnedPlaces { get; set; }
+        public virtual ICollection<Review> Reviews { get; set; }
+        public virtual ICollection<UserPreferences> UserPreferences { get; set; }
     }
 }
