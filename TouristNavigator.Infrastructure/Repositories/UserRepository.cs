@@ -13,6 +13,12 @@ namespace TouristNavigator.Infrastructure.Repositories
     {
         public UserRepository(ApplicationDbContext context) : base(context) { }
 
+        public async Task AddUserPreferenceAsync(UserPreferences preference)
+        {
+            await _context.Set<UserPreferences>().AddAsync(preference);    
+            await _context.SaveChangesAsync();
+        }
+
         public async Task<List<Place>> GetUserPlacesAsync(int userId)
         {
             return await _context.Set<Place>().Where(p => p.OwnerId == userId).ToListAsync();

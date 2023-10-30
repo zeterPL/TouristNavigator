@@ -10,7 +10,8 @@ namespace TouristNavigator.Domain.Entities
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public byte[] IconData { get; set; }
+        
+        public virtual CategoryIcon Icon { get; set; }
 
         public virtual ICollection<PlaceCategory> RelatedPlaces { get; set; }
         public virtual ICollection<UserPreferences> RelatedUsers { get; set; }

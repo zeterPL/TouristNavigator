@@ -45,7 +45,14 @@ namespace TouristNavigator.API.Controllers
         [HttpGet("places/{userId}", Name = "GetUserPlaces")]
         public async Task<ActionResult<List<Place>>> GetUserPlaces(int userId)
         {
-            return Ok(await _userService.GetUserPlacesAsync(userId));            
+            return Ok(await _userService.GetUserPlacesAsync(userId));
+        }
+
+        [HttpPost("preference/{userId}/{categoryId}", Name = "AddUserPreference")]
+        public async Task<ActionResult> AddUserPreference(int userId, int categoryId)
+        {
+            await _userService.AddUserPreference(userId, categoryId);
+            return Ok();
         }
     }
 }

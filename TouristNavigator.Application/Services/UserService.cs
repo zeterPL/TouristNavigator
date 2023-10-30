@@ -12,10 +12,22 @@ namespace TouristNavigator.Application.Services
     public class UserService : IUserService
     {
         private readonly IUserRepository _userRepository;
+        private readonly ICategoryRepository _categoryRepository;
 
-        public UserService(IUserRepository userRepository)
+        public UserService(IUserRepository userRepository, ICategoryRepository categoryRepository)
         { 
             _userRepository = userRepository;
+            _categoryRepository = categoryRepository;
+        }
+
+        public Task AddUserPreference(int userId, int categoryId)
+        {
+            var pref = new UserPreferences
+            {
+                UserId = userId,
+                CategoryId = categoryId
+            };
+            return _userRepository.AddUserPreferenceAsync(pref);
         }
 
         public Task<List<ApplicationUser>> GetAllAsync()

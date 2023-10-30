@@ -7,9 +7,7 @@ using TouristNavigator.Domain.Entities;
 
 namespace TouristNavigator.Application.Interfaces.Repositories
 {
-    public interface IPlaceRepository : IBaseRepository<Place>
+    public interface ICategoryIconRepository : IBaseRepository<CategoryIcon>
     {
-        Task AddCategoryToPlaceAsync(PlaceCategory category);
-        Task<List<Category>> GetAllCategoriesAsync(int id);
     }
 }

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TouristNavigator.Infrastructure;
 
@@ -11,9 +12,11 @@ using TouristNavigator.Infrastructure;
 namespace TouristNavigator.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231030114946_category-icon-relation")]
+    partial class categoryiconrelation
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -52,7 +55,7 @@ namespace TouristNavigator.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Users", (string)null);
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("TouristNavigator.Domain.Entities.Category", b =>
@@ -69,7 +72,7 @@ namespace TouristNavigator.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Categories", (string)null);
+                    b.ToTable("Categories");
                 });
 
             modelBuilder.Entity("TouristNavigator.Domain.Entities.CategoryIcon", b =>
@@ -92,7 +95,7 @@ namespace TouristNavigator.Infrastructure.Migrations
                     b.HasIndex("CategoryId")
                         .IsUnique();
 
-                    b.ToTable("CategoryIcon", (string)null);
+                    b.ToTable("CategoryIcon");
                 });
 
             modelBuilder.Entity("TouristNavigator.Domain.Entities.Place", b =>
@@ -121,7 +124,7 @@ namespace TouristNavigator.Infrastructure.Migrations
 
                     b.HasIndex("ApplicationUserId");
 
-                    b.ToTable("Places", (string)null);
+                    b.ToTable("Places");
                 });
 
             modelBuilder.Entity("TouristNavigator.Domain.Entities.PlaceCategory", b =>
@@ -136,7 +139,7 @@ namespace TouristNavigator.Infrastructure.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("PlacesCategories", (string)null);
+                    b.ToTable("PlacesCategories");
                 });
 
             modelBuilder.Entity("TouristNavigator.Domain.Entities.Review", b =>
@@ -169,7 +172,7 @@ namespace TouristNavigator.Infrastructure.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Reviews", (string)null);
+                    b.ToTable("Reviews");
                 });
 
             modelBuilder.Entity("TouristNavigator.Domain.Entities.UserPreferences", b =>
@@ -184,7 +187,7 @@ namespace TouristNavigator.Infrastructure.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("UserPreferences", (string)null);
+                    b.ToTable("UserPreferences");
                 });
 
             modelBuilder.Entity("TouristNavigator.Domain.Entities.CategoryIcon", b =>

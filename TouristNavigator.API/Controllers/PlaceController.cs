@@ -8,7 +8,7 @@ using TouristNavigator.Domain.Entities;
 namespace TouristNavigator.API.Controllers
 {
     [Route("place")]
-   // [Authorize]
+    // [Authorize]
     public class PlaceController : Controller
     {
         private readonly IPlaceService _placeService;
@@ -52,10 +52,23 @@ namespace TouristNavigator.API.Controllers
             return Ok();
         }
 
+        [HttpPost("addcategory/{placeId}/{categoryId}", Name = "AddCategoryToPlace")]
+        public async Task<ActionResult> AddCategoryToPlace(int placeId, int categoryId)
+        {
+            await _placeService.AddCategoryToPlace(placeId, categoryId);
+            return Ok();
+        }
+
         [HttpGet("review/{id}")]
         public async Task<ActionResult<List<ReviewDto>>> GetPlaceReviews(int id)
         {
             return Ok(await _placeService.GetPlaceReviews(id));
+        }
+
+        [HttpGet("categories/{placeId}", Name = "GetPlaceCategories")]
+        public async Task<ActionResult<List<CategoryDto>>> GetPlaceCategories(int placeId)
+        {
+            return Ok(await _placeService.GetPlaceCategories(placeId));
         }
     }
 }

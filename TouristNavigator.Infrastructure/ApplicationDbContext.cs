@@ -33,6 +33,12 @@ namespace TouristNavigator.Infrastructure
 
             modelBuilder.Entity<PlaceCategory>().HasKey(pc => new { pc.PlaceId, pc.CategoryId });
             modelBuilder.Entity<UserPreferences>().HasKey(up => new { up.UserId, up.CategoryId });
+
+            modelBuilder.Entity<Category>().HasOne(c => c.Icon).WithOne(i => i.Category).HasForeignKey<CategoryIcon>(i => i.CategoryId);
+
+            modelBuilder.Entity<Place>().HasMany(p => p.Categories).WithOne(c => c.Place).HasForeignKey(x => x.PlaceId);
+            modelBuilder.Entity<Category>().HasMany(c => c.RelatedPlaces).WithOne(p => p.Category).HasForeignKey(x => x.CategoryId);
+           
         }
     }
 }

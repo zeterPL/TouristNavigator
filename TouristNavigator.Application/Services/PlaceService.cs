@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 using TouristNavigator.Application.Dto;
@@ -14,11 +15,23 @@ namespace TouristNavigator.Application.Services
     {
         private readonly IPlaceRepository _placeRepository;
         private readonly IReviewRepository _reviewRepository;
+        private readonly ICategoryRepository _categoryRepository;
 
-        public PlaceService(IPlaceRepository placeRepository, IReviewRepository reviewRepository)
+        public PlaceService(IPlaceRepository placeRepository, IReviewRepository reviewRepository, ICategoryRepository categoryRepository)
         {
             _placeRepository = placeRepository;
             _reviewRepository = reviewRepository;
+            _categoryRepository = categoryRepository;
+        }
+
+        public Task AddCategoryToPlace(int placeId, int categoryId)
+        {
+            var placeCat = new PlaceCategory
+            {
+                PlaceId = placeId,
+                CategoryId = categoryId
+            };
+            return _placeRepository.AddCategoryToPlaceAsync(placeCat);
         }
 
         public Task CreateAsync(Place place)
@@ -40,6 +53,12 @@ namespace TouristNavigator.Application.Services
         {
             var reviews = await _reviewRepository.GetAllAsync();
             return reviews.Where(r => r.PlaceId == id).Select(r => r.toReviewDto()).ToList();
+        }
+
+        public async Task<List<CategoryDto>> GetPlaceCategories(int id)
+        {
+            var cat = await _placeRepository.GetAllCategoriesAsync(id);  
+            return cat.Select(c => c.toCategoryDto()).ToList();
         }
 
         public async Task RemoveAsync(int id)
