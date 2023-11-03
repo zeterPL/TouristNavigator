@@ -1,6 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Azure.Core;
+using Microsoft.AspNetCore.Mvc;
+using System.Text.Json;
 using TouristNavigator.Application.Dto;
 using TouristNavigator.Application.Interfaces.Services;
+using TouristNavigator.Application.Security.Models;
 using TouristNavigator.Application.Services;
 
 namespace TouristNavigator.API.Controllers
@@ -24,7 +27,19 @@ namespace TouristNavigator.API.Controllers
         [HttpPost("createreview", Name = "CreateReview")]
         public async Task<ActionResult> CreateReview(ReviewDto review)
         {
-            await _reviewService.AddReviewAsync(review);
+            ReviewDto newRequest = new ReviewDto();
+            try
+            {
+                newRequest = review;
+                newRequest.Comment = JsonSerializer.Deserialize<string>(review.Comment);
+                //newRequest.Password = JsonSerializer.Deserialize<string>(request.Password);
+            }
+            catch (Exception ex)
+            {
+                newRequest = review;
+            }
+
+            await _reviewService.AddReviewAsync(newRequest);
             return Ok();
         }
     }

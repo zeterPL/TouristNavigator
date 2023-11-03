@@ -23,5 +23,14 @@ namespace TouristNavigator.Infrastructure.Repositories
         {
             return await _context.Set<Place>().Where(p => p.OwnerId == userId).ToListAsync();
         }
+
+        public async Task<List<Category>> GetUserPreferences(int userId)
+        {
+            var user = await _context.Set<ApplicationUser>().Include(u => u.UserPreferences)
+                .ThenInclude(up => up.Category).ThenInclude(c => c.Icon).FirstOrDefaultAsync(u => u.Id == userId);
+
+            var categories = user.UserPreferences.Select(pc => pc.Category).ToList();
+            return categories;
+        }
     }
 }

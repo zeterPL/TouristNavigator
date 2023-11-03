@@ -11,17 +11,24 @@ namespace TouristNavigator.Application.Dto
     {
         public int Id { get; set; }
         public string Name { get; set; }
+        public byte[]? Icon { get; set; }
     }
 
     public static class CategoryExtensions
     {
         public static CategoryDto toCategoryDto(this Category category)
         {
-            return new CategoryDto
+            var dto = new CategoryDto
             {
                 Id = category.Id,
                 Name = category.Name,
+                //Icon = category.Icon.Icon
             };
+            if (category.Icon != null)
+            {
+                dto.Icon = category.Icon.Icon;
+            }
+            return dto;
         }
     }
 }

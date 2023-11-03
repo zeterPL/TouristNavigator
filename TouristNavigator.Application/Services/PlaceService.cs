@@ -34,9 +34,20 @@ namespace TouristNavigator.Application.Services
             return _placeRepository.AddCategoryToPlaceAsync(placeCat);
         }
 
-        public Task CreateAsync(Place place)
+        public Task CreateAsync(AddPlaceDto place)
         {
-            return _placeRepository.AddAsync(place);
+            var p = new Place
+            {
+                Name = place.Name,
+                Description = place.Description,
+                Adress = place.Adress,
+                Url = place.Url,
+                OwnerId = place.OwnerId,
+                Latitude = place.Latitude,
+                Longitude = place.Longitude,
+                Rating = 0.0
+            };
+            return _placeRepository.AddAsync(p);
         }
 
         public Task<List<Place>> GetAllAsync()

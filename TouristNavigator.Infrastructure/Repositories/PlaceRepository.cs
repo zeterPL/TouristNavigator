@@ -22,7 +22,7 @@ namespace TouristNavigator.Infrastructure.Repositories
         public async Task<List<Category>> GetAllCategoriesAsync(int id)
         {
             var place = await _context.Set<Place>().Include(p => p.Categories)
-                .ThenInclude(pc => pc.Category).FirstOrDefaultAsync(p => p.Id == id);
+                .ThenInclude(pc => pc.Category).ThenInclude(c => c.Icon).FirstOrDefaultAsync(p => p.Id == id);
 
             var categories = place.Categories.Select(pc => pc.Category).ToList();
             return categories;

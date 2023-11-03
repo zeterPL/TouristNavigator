@@ -38,6 +38,8 @@ namespace TouristNavigator.Infrastructure
 
             modelBuilder.Entity<Place>().HasMany(p => p.Categories).WithOne(c => c.Place).HasForeignKey(x => x.PlaceId);
             modelBuilder.Entity<Category>().HasMany(c => c.RelatedPlaces).WithOne(p => p.Category).HasForeignKey(x => x.CategoryId);
+
+            modelBuilder.Entity<Place>().OwnsOne(p => p.Adress);
            
         }
     }

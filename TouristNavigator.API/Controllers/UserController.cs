@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using TouristNavigator.Application.Dto;
 using TouristNavigator.Application.Interfaces.Services;
 using TouristNavigator.Domain.Entities;
 
@@ -53,6 +54,12 @@ namespace TouristNavigator.API.Controllers
         {
             await _userService.AddUserPreference(userId, categoryId);
             return Ok();
+        }
+
+        [HttpGet("preference/{userId}", Name = "GetUserPreferences")]
+        public async Task<ActionResult<List<CategoryDto>>> GetUserPreferences(int userId)
+        {
+            return Ok(await _userService.GetUserPreferences(userId));
         }
     }
 }

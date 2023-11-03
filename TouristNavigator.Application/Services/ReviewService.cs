@@ -13,13 +13,15 @@ namespace TouristNavigator.Application.Services
     public class ReviewService : IReviewService
     {
         private readonly IReviewRepository _reviewRepository;
+        private readonly IPlaceService _placeService;
 
-        public ReviewService(IReviewRepository reviewRepository)
+        public ReviewService(IReviewRepository reviewRepository, IPlaceService placeService)
         {
             _reviewRepository = reviewRepository;
+            _placeService = placeService;
         }
 
-        public Task AddReviewAsync(ReviewDto review)
+        public async Task<Review> AddReviewAsync(ReviewDto review)
         {
             Review newReview = new Review()
             {
@@ -30,7 +32,21 @@ namespace TouristNavigator.Application.Services
                 ReviewValue = review.ReviewValue,
                 CreationTime = DateTime.Now,
             };
-            return _reviewRepository.AddAsync(newReview);
+
+            var place = await _placeService.GetByIdAsync(review.PlaceId);
+            var placeReviews = await _placeService.GetPlaceReviews(review.PlaceId);
+            if(placeReviews.Count != 0)
+            {
+                var rates = placeReviews.Select(r => r.ReviewValue).ToList();
+                var sum = rates.Sum() + newReview.ReviewValue;
+                place.Rating = sum/(rates.Count() + 1);
+            }
+            else if (placeReviews.Count == 0)
+            {
+                place.Rating = newReview.ReviewValue;
+            }
+            await _placeService.UpdateAsync(place);
+            return await _reviewRepository.AddAsync(newReview);
            
         }
 

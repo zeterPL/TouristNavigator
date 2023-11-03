@@ -46,7 +46,7 @@ namespace TouristNavigator.API.Controllers
         }
 
         [HttpPost("addplace", Name = "AddPlace")]
-        public async Task<ActionResult> AddPlace(Place place)
+        public async Task<ActionResult> AddPlace(AddPlaceDto place)
         {
             await _placeService.CreateAsync(place);
             return Ok();

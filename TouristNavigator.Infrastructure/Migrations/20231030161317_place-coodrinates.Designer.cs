@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TouristNavigator.Infrastructure;
 
@@ -11,9 +12,11 @@ using TouristNavigator.Infrastructure;
 namespace TouristNavigator.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231030161317_place-coodrinates")]
+    partial class placecoodrinates
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -110,7 +113,7 @@ namespace TouristNavigator.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<double>("Latitude")
+                    b.Property<double>("Latitute")
                         .HasColumnType("float");
 
                     b.Property<double>("Longitude")
@@ -122,12 +125,6 @@ namespace TouristNavigator.Infrastructure.Migrations
 
                     b.Property<int>("OwnerId")
                         .HasColumnType("int");
-
-                    b.Property<double>("Rating")
-                        .HasColumnType("float");
-
-                    b.Property<string>("Url")
-                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -215,41 +212,6 @@ namespace TouristNavigator.Infrastructure.Migrations
                     b.HasOne("TouristNavigator.Domain.Entities.ApplicationUser", null)
                         .WithMany("OwnedPlaces")
                         .HasForeignKey("ApplicationUserId");
-
-                    b.OwnsOne("TouristNavigator.Domain.ValueObjects.Adress", "Adress", b1 =>
-                        {
-                            b1.Property<int>("PlaceId")
-                                .HasColumnType("int");
-
-                            b1.Property<string>("City")
-                                .IsRequired()
-                                .HasColumnType("nvarchar(max)");
-
-                            b1.Property<string>("Country")
-                                .IsRequired()
-                                .HasColumnType("nvarchar(max)");
-
-                            b1.Property<string>("LocalNumber")
-                                .HasColumnType("nvarchar(max)");
-
-                            b1.Property<string>("PostalCode")
-                                .IsRequired()
-                                .HasColumnType("nvarchar(max)");
-
-                            b1.Property<string>("Street")
-                                .IsRequired()
-                                .HasColumnType("nvarchar(max)");
-
-                            b1.HasKey("PlaceId");
-
-                            b1.ToTable("Places");
-
-                            b1.WithOwner()
-                                .HasForeignKey("PlaceId");
-                        });
-
-                    b.Navigation("Adress")
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("TouristNavigator.Domain.Entities.PlaceCategory", b =>

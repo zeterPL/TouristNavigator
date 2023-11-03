@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TouristNavigator.Application.Dto;
 using TouristNavigator.Domain.Entities;
 
 namespace TouristNavigator.Application.Interfaces.Services
@@ -15,5 +16,6 @@ namespace TouristNavigator.Application.Interfaces.Services
         public Task RemoveAsync(ApplicationUser user);
         public Task<List<Place>> GetUserPlacesAsync(int userId);
         public Task AddUserPreference(int userId, int categoryId);
+        public Task<List<CategoryDto>> GetUserPreferences(int userId);
     }
 }
