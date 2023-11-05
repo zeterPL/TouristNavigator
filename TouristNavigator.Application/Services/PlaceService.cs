@@ -16,12 +16,14 @@ namespace TouristNavigator.Application.Services
         private readonly IPlaceRepository _placeRepository;
         private readonly IReviewRepository _reviewRepository;
         private readonly ICategoryRepository _categoryRepository;
+        private readonly IPlacePhotoRepository _photoRepository;
 
-        public PlaceService(IPlaceRepository placeRepository, IReviewRepository reviewRepository, ICategoryRepository categoryRepository)
+        public PlaceService(IPlaceRepository placeRepository, IReviewRepository reviewRepository, ICategoryRepository categoryRepository, IPlacePhotoRepository photoRepository)
         {
             _placeRepository = placeRepository;
             _reviewRepository = reviewRepository;
             _categoryRepository = categoryRepository;
+            _photoRepository = photoRepository;
         }
 
         public Task AddCategoryToPlace(int placeId, int categoryId)
@@ -50,9 +52,10 @@ namespace TouristNavigator.Application.Services
             return _placeRepository.AddAsync(p);
         }
 
-        public Task<List<Place>> GetAllAsync()
+        public async Task<List<PlaceDto>> GetAllAsync()
         {
-            return _placeRepository.GetAllAsync();
+            var places = await _placeRepository.GetAllWithPhoto();
+            return places.Select(p => p.toPlaceDto()).ToList();
         }
 
         public Task<Place> GetByIdAsync(int id)
@@ -81,6 +84,17 @@ namespace TouristNavigator.Application.Services
         public Task UpdateAsync(Place place)
         {
             return _placeRepository.UpdateAsync(place);
+        }
+
+        public Task AddPhotoAsync(PlacePhotoDto dto, int placeId)
+        {
+            PlacePhoto photo = new PlacePhoto
+            {
+                PlaceId = placeId,
+                Photo = dto.Photo
+            };
+
+            return _photoRepository.AddAsync(photo);
         }
     }
 }

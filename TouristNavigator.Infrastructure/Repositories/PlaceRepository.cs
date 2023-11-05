@@ -29,5 +29,11 @@ namespace TouristNavigator.Infrastructure.Repositories
            
             
         }
+
+        public async Task<List<Place>> GetAllWithPhoto()
+        {
+            var places = await _context.Set<Place>().Include(p => p.PlacePhoto).ToListAsync();
+            return places;
+        }
     }
 }

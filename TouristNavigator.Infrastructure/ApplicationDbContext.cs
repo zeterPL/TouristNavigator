@@ -26,6 +26,8 @@ namespace TouristNavigator.Infrastructure
         DbSet<Category> Categories { get; set; }
         DbSet<PlaceCategory> PlacesCategories { get; set; }
         DbSet<UserPreferences> UserPreferences { get; set; }
+        DbSet<CategoryIcon> CategoryIcons { get; set; }
+        DbSet<PlacePhoto> PlacesPhotos { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

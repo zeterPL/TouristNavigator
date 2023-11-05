@@ -25,7 +25,7 @@ namespace TouristNavigator.API.Controllers
         }
 
         [HttpGet("getall", Name = "GetAllPlaces")]
-        public async Task<ActionResult<List<Place>>> GetAllPlaces()
+        public async Task<ActionResult<List<PlaceDto>>> GetAllPlaces()
         {
             return Ok(await _placeService.GetAllAsync());
         }
@@ -69,6 +69,25 @@ namespace TouristNavigator.API.Controllers
         public async Task<ActionResult<List<CategoryDto>>> GetPlaceCategories(int placeId)
         {
             return Ok(await _placeService.GetPlaceCategories(placeId));
+        }
+
+        [HttpPost("addphoto/{placeId}", Name = "AddPlacePhoto")]
+        public async Task<ActionResult> AddPlacePhoto(int placeId, IFormFile photo)
+        {
+            using (var memoryStream = new MemoryStream())
+            {
+                await photo.CopyToAsync(memoryStream);
+                byte[] iconData = memoryStream.ToArray();
+
+                PlacePhotoDto dto = new PlacePhotoDto
+                {
+                    Photo = iconData
+                };
+
+                await _placeService.AddPhotoAsync(dto, placeId);
+                return Ok();
+            }
+            return BadRequest("Plik ikony nie został przesłany.");
         }
     }
 }

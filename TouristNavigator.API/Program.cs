@@ -31,6 +31,7 @@ builder.Services.AddScoped<IPlaceRepository, PlaceRepository>();
 builder.Services.AddScoped<IReviewRepository, ReviewRepository>();
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<ICategoryIconRepository, CategoryIconRepository>();
+builder.Services.AddScoped<IPlacePhotoRepository, PlacePhotoRepository>();
 
 builder.Services.AddScoped<IUserManager<ApplicationUser>, UserManager>();
 builder.Services.AddScoped<ISignInManager<ApplicationUser>, SignInManager>();
@@ -40,6 +41,7 @@ builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IPlaceService, PlaceService>();
 builder.Services.AddScoped<IReviewService, ReviewService>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
+
 
 builder.Services.AddAuthentication(options =>
 {

@@ -19,6 +19,7 @@ namespace TouristNavigator.Domain.Entities
         public Adress Adress { get; set; }
         public double Rating { get; set; }
 
+        public virtual PlacePhoto PlacePhoto { get; set; }
         public virtual ICollection<Review> Reviews { get; set; }
         public virtual ICollection<PlaceCategory> Categories { get; set; }
     }

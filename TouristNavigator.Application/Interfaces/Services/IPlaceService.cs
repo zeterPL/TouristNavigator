@@ -10,7 +10,7 @@ namespace TouristNavigator.Application.Interfaces.Services
 {
     public interface IPlaceService
     {
-        public Task<List<Place>> GetAllAsync();
+        public Task<List<PlaceDto>> GetAllAsync();
         public Task<Place> GetByIdAsync(int id);
         public Task RemoveAsync(int id);
         public Task UpdateAsync(Place place);
@@ -19,6 +19,7 @@ namespace TouristNavigator.Application.Interfaces.Services
         public Task<List<ReviewDto>> GetPlaceReviews(int id);
         public Task AddCategoryToPlace(int placeId, int categoryId);
         public Task<List<CategoryDto>> GetPlaceCategories(int id);
+        public Task AddPhotoAsync(PlacePhotoDto dto, int placeId);
 
 
     }
