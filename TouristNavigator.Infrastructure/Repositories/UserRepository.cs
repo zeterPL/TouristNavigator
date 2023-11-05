@@ -19,6 +19,13 @@ namespace TouristNavigator.Infrastructure.Repositories
             await _context.SaveChangesAsync();
         }
 
+        public async Task DeleteUserPreference(int userId, int categoryId)
+        {
+            var pref = await _context.Set<UserPreferences>().Where(p => p.UserId == userId &&  p.CategoryId == categoryId).FirstOrDefaultAsync();
+            _context.Set<UserPreferences>().Remove(pref);
+            await _context.SaveChangesAsync();
+        }
+
         public async Task<List<Place>> GetUserPlacesAsync(int userId)
         {
             return await _context.Set<Place>().Where(p => p.OwnerId == userId).ToListAsync();

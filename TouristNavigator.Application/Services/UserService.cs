@@ -31,6 +31,11 @@ namespace TouristNavigator.Application.Services
             return _userRepository.AddUserPreferenceAsync(pref);
         }
 
+        public Task DeleteUserPreference(int userId, int categoryId)
+        {
+            return _userRepository.DeleteUserPreference(userId, categoryId);
+        }
+
         public Task<List<ApplicationUser>> GetAllAsync()
         {
             return _userRepository.GetAllAsync();

@@ -17,5 +17,6 @@ namespace TouristNavigator.Application.Interfaces.Services
         public Task<List<Place>> GetUserPlacesAsync(int userId);
         public Task AddUserPreference(int userId, int categoryId);
         public Task<List<CategoryDto>> GetUserPreferences(int userId);
+        public Task DeleteUserPreference(int userId, int categoryId);
     }
 }
