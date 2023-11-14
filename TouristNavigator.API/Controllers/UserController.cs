@@ -44,7 +44,7 @@ namespace TouristNavigator.API.Controllers
         }
 
         [HttpGet("places/{userId}", Name = "GetUserPlaces")]
-        public async Task<ActionResult<List<Place>>> GetUserPlaces(int userId)
+        public async Task<ActionResult<List<PlaceDto>>> GetUserPlaces(int userId)
         {
             return Ok(await _userService.GetUserPlacesAsync(userId));
         }

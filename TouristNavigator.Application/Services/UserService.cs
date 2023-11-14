@@ -14,11 +14,13 @@ namespace TouristNavigator.Application.Services
     {
         private readonly IUserRepository _userRepository;
         private readonly ICategoryRepository _categoryRepository;
+        private readonly IPlaceRepository _placeRepository;
 
-        public UserService(IUserRepository userRepository, ICategoryRepository categoryRepository)
+        public UserService(IUserRepository userRepository, ICategoryRepository categoryRepository, IPlaceRepository placeRepository)
         { 
             _userRepository = userRepository;
             _categoryRepository = categoryRepository;
+            _placeRepository = placeRepository;
         }
 
         public Task AddUserPreference(int userId, int categoryId)
@@ -46,9 +48,10 @@ namespace TouristNavigator.Application.Services
             return _userRepository.GetAsync(id);
         }
 
-        public Task<List<Place>> GetUserPlacesAsync(int userId)
+        public async Task<List<PlaceDto>> GetUserPlacesAsync(int userId)
         {
-            return _userRepository.GetUserPlacesAsync(userId);
+            var places = await _placeRepository.GetAllWithPhoto();
+            return places.Where(p => p.OwnerId == userId).Select(p => p.toPlaceDto()).ToList();
         }
 
         public async Task<List<CategoryDto>> GetUserPreferences(int userId)

@@ -14,7 +14,7 @@ namespace TouristNavigator.Application.Interfaces.Services
         public Task<List<ApplicationUser>> GetAllAsync();
         public Task UpdateAsync(ApplicationUser user);
         public Task RemoveAsync(ApplicationUser user);
-        public Task<List<Place>> GetUserPlacesAsync(int userId);
+        public Task<List<PlaceDto>> GetUserPlacesAsync(int userId);
         public Task AddUserPreference(int userId, int categoryId);
         public Task<List<CategoryDto>> GetUserPreferences(int userId);
         public Task DeleteUserPreference(int userId, int categoryId);
