@@ -16,5 +16,6 @@ namespace TouristNavigator.Application.Dto
         public double Longitude { get; set; }
         public string? Url { get; set; }
         public Adress Adress { get; set; }      
+        public byte[]? Photo { get; set; }
     }
 }

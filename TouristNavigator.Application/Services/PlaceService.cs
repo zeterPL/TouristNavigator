@@ -36,7 +36,7 @@ namespace TouristNavigator.Application.Services
             return _placeRepository.AddCategoryToPlaceAsync(placeCat);
         }
 
-        public Task CreateAsync(AddPlaceDto place)
+        public async Task<int> CreateAsync(AddPlaceDto place)
         {
             var p = new Place
             {
@@ -49,7 +49,16 @@ namespace TouristNavigator.Application.Services
                 Longitude = place.Longitude,
                 Rating = 0.0
             };
-            return _placeRepository.AddAsync(p);
+          
+            var createdPlace = await _placeRepository.AddAsync(p);
+
+            if (place.Photo != null)
+            {
+                var photo = new PlacePhotoDto { Photo = place.Photo };
+                await AddPhotoAsync(photo, createdPlace.Id);
+            }
+            return createdPlace.Id;
+
         }
 
         public async Task<List<PlaceDto>> GetAllAsync()

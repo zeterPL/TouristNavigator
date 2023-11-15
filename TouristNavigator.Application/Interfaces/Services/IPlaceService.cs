@@ -14,7 +14,7 @@ namespace TouristNavigator.Application.Interfaces.Services
         public Task<Place> GetByIdAsync(int id);
         public Task RemoveAsync(int id);
         public Task UpdateAsync(Place place);
-        public Task CreateAsync(AddPlaceDto place);
+        public Task<int> CreateAsync(AddPlaceDto place);
 
         public Task<List<ReviewDto>> GetPlaceReviews(int id);
         public Task AddCategoryToPlace(int placeId, int categoryId);
