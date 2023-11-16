@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Text;
+using System.Text.Json;
 using TouristNavigator.Application.Dto;
 using TouristNavigator.Application.Interfaces.Services;
 using TouristNavigator.Application.Services;
@@ -32,8 +34,28 @@ namespace TouristNavigator.API.Controllers
 
 
         [HttpPut("updateplace", Name = "UpdatePlace")]
-        public async Task<ActionResult> UpdatePlace(Place place)
+        public async Task<ActionResult> UpdatePlace(PlaceDto place)
         {
+            PlaceDto newRequest = new PlaceDto();
+            try
+            {
+                newRequest = place;             
+                newRequest.Name = JsonSerializer.Deserialize<string>(place.Name);
+                newRequest.Description = JsonSerializer.Deserialize<string>(place.Description);
+                newRequest.Adress.City = JsonSerializer.Deserialize<string>(place.Adress.City);
+                newRequest.Adress.Country = JsonSerializer.Deserialize<string>(place.Adress.Country);
+                newRequest.Adress.Street = JsonSerializer.Deserialize<string>(place.Adress.Street);
+                newRequest.Adress.PostalCode = JsonSerializer.Deserialize<string>(place.Adress.PostalCode);
+                newRequest.Adress.LocalNumber = JsonSerializer.Deserialize<string>(place.Adress.LocalNumber);
+                newRequest.Url = JsonSerializer.Deserialize<string>(place.Url);
+
+
+            }
+            catch (Exception ex)
+            {
+                newRequest = place;
+            }
+
             await _placeService.UpdateAsync(place);
             return Ok();
         }
@@ -46,9 +68,51 @@ namespace TouristNavigator.API.Controllers
         }
 
         [HttpPost("addplace", Name = "AddPlace")]
-        public async Task<ActionResult<int>> AddPlace(AddPlaceDto place)
+        public async Task<ActionResult<int>> AddPlace(AddPlaceRequest place)
         {
-            return Ok(await _placeService.CreateAsync(place));
+
+            AddPlaceRequest newRequest = new AddPlaceRequest();
+            try
+            {
+                newRequest = place;
+                newRequest.Name = JsonSerializer.Deserialize<string>(place.Name);
+                newRequest.Description = JsonSerializer.Deserialize<string>(place.Description);
+                newRequest.Adress.City = JsonSerializer.Deserialize<string>(place.Adress.City);
+                newRequest.Adress.Country = JsonSerializer.Deserialize<string>(place.Adress.Country);
+                newRequest.Adress.Street = JsonSerializer.Deserialize<string>(place.Adress.Street);
+                newRequest.Adress.PostalCode = JsonSerializer.Deserialize<string>(place.Adress.PostalCode);
+                newRequest.Adress.LocalNumber = JsonSerializer.Deserialize<string>(place.Adress.LocalNumber);           
+                newRequest.Url = JsonSerializer.Deserialize<string>(place.Url);
+
+               
+            }
+            catch (Exception ex)
+            {
+                newRequest = place;
+            }
+
+            byte[] byteArray = null;
+
+            if (newRequest.Photo != null)
+            {
+                byteArray = Encoding.UTF8.GetBytes(newRequest.Photo);
+            }
+            
+
+
+            AddPlaceDto placeDto = new AddPlaceDto
+            {
+                OwnerId = newRequest.OwnerId,
+                Name = newRequest.Name,
+                Description = newRequest.Description,
+                Latitude = newRequest.Latitude,
+                Longitude = newRequest.Longitude,
+                Url = newRequest.Url,
+                Adress = newRequest.Adress,
+                Photo = byteArray,
+            };
+
+            return Ok(await _placeService.CreateAsync(placeDto));
         }
 
         [HttpPost("addcategory/{placeId}/{categoryId}", Name = "AddCategoryToPlace")]

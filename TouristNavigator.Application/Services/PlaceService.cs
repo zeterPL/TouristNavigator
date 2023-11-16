@@ -90,9 +90,17 @@ namespace TouristNavigator.Application.Services
             await _placeRepository.DeleteAsync(entity);
         }
 
-        public Task UpdateAsync(Place place)
+        public async Task UpdateAsync(PlaceDto place)
         {
-            return _placeRepository.UpdateAsync(place);
+            var tmp = await _placeRepository.GetAsync(place.Id);
+            tmp.Name = place.Name;
+            tmp.Description = place.Description;
+            tmp.Longitude = place.Longitude;
+            tmp.Latitude = place.Latitude;
+            tmp.Url = place.Url;
+            tmp.Adress = place.Adress;
+           
+            await _placeRepository.UpdateAsync(tmp);
         }
 
         public Task AddPhotoAsync(PlacePhotoDto dto, int placeId)

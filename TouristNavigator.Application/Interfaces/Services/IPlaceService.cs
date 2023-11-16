@@ -13,7 +13,7 @@ namespace TouristNavigator.Application.Interfaces.Services
         public Task<List<PlaceDto>> GetAllAsync();
         public Task<Place> GetByIdAsync(int id);
         public Task RemoveAsync(int id);
-        public Task UpdateAsync(Place place);
+        public Task UpdateAsync(PlaceDto place);
         public Task<int> CreateAsync(AddPlaceDto place);
 
         public Task<List<ReviewDto>> GetPlaceReviews(int id);
