@@ -56,7 +56,7 @@ namespace TouristNavigator.API.Controllers
                 newRequest = place;
             }
 
-            await _placeService.UpdateAsync(place);
+            await _placeService.UpdateAsync(newRequest);
             return Ok();
         }
 
