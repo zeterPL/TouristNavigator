@@ -113,5 +113,20 @@ namespace TouristNavigator.Application.Services
 
             return _photoRepository.AddAsync(photo);
         }
+
+        public  Task SetPlaceAsFavourite(int placeId, int userId)
+        {
+            var favourite = new FavouriteUserPlace
+            {
+                UserId = userId,
+                PlaceId = placeId,
+            };
+            return _placeRepository.SetPlaceAsFavourite(favourite);
+        }
+
+        public async Task<bool> CheckIfPlaceIsFavourite(int placeId, int userId)
+        {
+            return await _placeRepository.CheckIfPlaceIsFavourite(placeId, userId);
+        }
     }
 }

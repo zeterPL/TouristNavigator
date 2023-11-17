@@ -22,5 +22,6 @@ namespace TouristNavigator.Domain.Entities
         public virtual PlacePhoto PlacePhoto { get; set; }
         public virtual ICollection<Review> Reviews { get; set; }
         public virtual ICollection<PlaceCategory> Categories { get; set; }
+        public virtual ICollection<FavouriteUserPlace> FavouriteUsers { get; set; }
     }
 }

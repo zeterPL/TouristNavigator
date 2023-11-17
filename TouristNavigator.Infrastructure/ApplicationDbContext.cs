@@ -28,6 +28,7 @@ namespace TouristNavigator.Infrastructure
         DbSet<UserPreferences> UserPreferences { get; set; }
         DbSet<CategoryIcon> CategoryIcons { get; set; }
         DbSet<PlacePhoto> PlacesPhotos { get; set; }
+        DbSet<FavouriteUserPlace> FavouriteUserPlaces { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -35,6 +36,7 @@ namespace TouristNavigator.Infrastructure
 
             modelBuilder.Entity<PlaceCategory>().HasKey(pc => new { pc.PlaceId, pc.CategoryId });
             modelBuilder.Entity<UserPreferences>().HasKey(up => new { up.UserId, up.CategoryId });
+            modelBuilder.Entity<FavouriteUserPlace>().HasKey(fp => new { fp.UserId, fp.PlaceId });
 
             modelBuilder.Entity<Category>().HasOne(c => c.Icon).WithOne(i => i.Category).HasForeignKey<CategoryIcon>(i => i.CategoryId);
 

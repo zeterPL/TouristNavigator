@@ -48,6 +48,12 @@ namespace TouristNavigator.Application.Services
             return _userRepository.GetAsync(id);
         }
 
+        public async Task<List<PlaceDto>> GetUserFavouritePlaces(int userId)
+        {
+            var fav = await _userRepository.GetUserFavouritePlaces(userId);
+            return fav.Select(p => p.toPlaceDto()).ToList();
+        }
+
         public async Task<List<PlaceDto>> GetUserPlacesAsync(int userId)
         {
             var places = await _placeRepository.GetAllWithPhoto();

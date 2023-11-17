@@ -12,5 +12,7 @@ namespace TouristNavigator.Application.Interfaces.Repositories
         Task AddCategoryToPlaceAsync(PlaceCategory category);
         Task<List<Category>> GetAllCategoriesAsync(int id);
         Task<List<Place>> GetAllWithPhoto();
+        Task SetPlaceAsFavourite(FavouriteUserPlace favouritePlace);
+        Task<bool> CheckIfPlaceIsFavourite(int placeId, int userId);
     }
 }

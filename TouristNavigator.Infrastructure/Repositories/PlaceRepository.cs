@@ -19,6 +19,16 @@ namespace TouristNavigator.Infrastructure.Repositories
             await _context.SaveChangesAsync();
         }
 
+        public async Task<bool> CheckIfPlaceIsFavourite(int placeId, int userId)
+        {
+            var fav = _context.Set<FavouriteUserPlace>().Where(f => f.UserId == userId && f.PlaceId == placeId);
+            if (fav.Count() > 0)
+            {
+                return true;
+            }
+            else return false;
+        }
+
         public async Task<List<Category>> GetAllCategoriesAsync(int id)
         {
             var place = await _context.Set<Place>().Include(p => p.Categories)
@@ -34,6 +44,13 @@ namespace TouristNavigator.Infrastructure.Repositories
         {
             var places = await _context.Set<Place>().Include(p => p.PlacePhoto).ToListAsync();
             return places;
+        }
+
+        public async Task SetPlaceAsFavourite(FavouriteUserPlace favouritePlace)
+        {
+            await _context.Set<FavouriteUserPlace>().AddAsync(favouritePlace);
+            await _context.SaveChangesAsync();
+
         }
     }
 }

@@ -152,5 +152,21 @@ namespace TouristNavigator.API.Controllers
             }
             return BadRequest("Plik ikony nie został przesłany.");
         }
+
+        [HttpPost("setasfavourite/{placeId}/{userId}", Name = "SetPlaceAsFavourite")]
+        public async Task<ActionResult> SetPlaceAsFavourite(int placeId, int userId)
+        {
+           await _placeService.SetPlaceAsFavourite(placeId, userId);
+            return Ok();
+        }
+
+        [HttpGet("isfavourite/{placeId}/{userId}", Name = "CheckIfPlaceIsFavourite")]
+        public async Task<ActionResult<bool>> CheckIfPlaceIsFavourite(int placeId, int userId)
+        {
+            return Ok(await _placeService.CheckIfPlaceIsFavourite(placeId, userId));
+        }
+
+
+        
     }
 }

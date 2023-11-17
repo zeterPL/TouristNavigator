@@ -18,5 +18,6 @@ namespace TouristNavigator.Domain.Entities
         public virtual ICollection<Place> OwnedPlaces { get; set; }
         public virtual ICollection<Review> Reviews { get; set; }
         public virtual ICollection<UserPreferences> UserPreferences { get; set; }
+        public virtual ICollection<FavouriteUserPlace> FavouritePlaces { get; set; }
     }
 }
