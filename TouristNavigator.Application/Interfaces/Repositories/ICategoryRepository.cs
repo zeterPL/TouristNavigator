@@ -9,5 +9,6 @@ namespace TouristNavigator.Application.Interfaces.Repositories
 {
     public interface ICategoryRepository : IBaseRepository<Category>
     {
+        public Task<List<Category>> GetAllWithIcon();
     }
 }

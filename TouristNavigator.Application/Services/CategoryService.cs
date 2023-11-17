@@ -37,9 +37,10 @@ namespace TouristNavigator.Application.Services
             return _iconRepository.AddAsync(i);
         }
 
-        public async Task<List<Category>> GetAllAsync()
+        public async Task<List<CategoryDto>> GetAllAsync()
         {
-            return await _categoryRepository.GetAllAsync();
+            var categories = await _categoryRepository.GetAllWithIcon();
+            return categories.Select(c => c.toCategoryDto()).ToList();
         }
     }
 }

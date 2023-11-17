@@ -19,7 +19,7 @@ namespace TouristNavigator.API.Controllers
         }
 
         [HttpGet("getall",Name = "GetAllCategories")]
-        public async Task<ActionResult<List<Category>>> GetAllCategories()
+        public async Task<ActionResult<List<CategoryDto>>> GetAllCategories()
         {
             return Ok(await _categoryService.GetAllAsync());
         }

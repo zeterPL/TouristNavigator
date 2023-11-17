@@ -45,7 +45,7 @@ namespace TouristNavigator.Application.Services
             {
                 place.Rating = newReview.ReviewValue;
             }
-            await _placeService.UpdateAsync(place);
+            await _placeService.UpdateAsync(place.toPlaceDto());
             return await _reviewRepository.AddAsync(newReview);
            
         }

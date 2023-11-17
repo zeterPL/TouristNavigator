@@ -46,7 +46,7 @@ namespace TouristNavigator.API.Controllers
                 newRequest.Adress.Country = JsonSerializer.Deserialize<string>(place.Adress.Country);
                 newRequest.Adress.Street = JsonSerializer.Deserialize<string>(place.Adress.Street);
                 newRequest.Adress.PostalCode = JsonSerializer.Deserialize<string>(place.Adress.PostalCode);
-                newRequest.Adress.LocalNumber = JsonSerializer.Deserialize<string>(place.Adress.LocalNumber);
+                if(newRequest.Adress.LocalNumber != null) newRequest.Adress.LocalNumber = JsonSerializer.Deserialize<string>(place.Adress.LocalNumber);
                 newRequest.Url = JsonSerializer.Deserialize<string>(place.Url);
 
 

@@ -21,7 +21,7 @@ var builder = WebApplication.CreateBuilder(args);
 var section = builder.Configuration.GetSection("JsonTokensSettings");
 builder.Services.Configure<JsonTokensSettings>(section);
 
-var connectionString = builder.Configuration.GetConnectionString("AzureConnection");
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
