@@ -66,6 +66,12 @@ namespace TouristNavigator.Application.Services
             return pref.Select(p => p.toCategoryDto()).ToList();
         }
 
+        public async Task<List<ReviewDto>> GetUserReviews(int userId)
+        {
+            var reviews = await _userRepository.GetUserReviews(userId);
+            return reviews.Select(r => r.toReviewDto()).ToList();
+        }
+
         public Task RemoveAsync(ApplicationUser user)
         {
             return _userRepository.DeleteAsync(user);

@@ -14,5 +14,7 @@ namespace TouristNavigator.Application.Interfaces.Repositories
         Task<List<Place>> GetAllWithPhoto();
         Task SetPlaceAsFavourite(FavouriteUserPlace favouritePlace);
         Task<bool> CheckIfPlaceIsFavourite(int placeId, int userId);
+
+        public Task RemoveFavourite(int placeId, int userId);
     }
 }

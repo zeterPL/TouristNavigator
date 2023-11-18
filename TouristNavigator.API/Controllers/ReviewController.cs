@@ -42,5 +42,12 @@ namespace TouristNavigator.API.Controllers
             await _reviewService.AddReviewAsync(newRequest);
             return Ok();
         }
+
+        [HttpDelete("delete/{reviewId}", Name = "RemoveReview")]
+        public async Task<ActionResult> RemoveReview(int reviewId)
+        {
+            await _reviewService.DeleteReviewAsync(reviewId);
+            return Ok();
+        }
     }
 }

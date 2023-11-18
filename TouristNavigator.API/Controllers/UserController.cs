@@ -75,5 +75,11 @@ namespace TouristNavigator.API.Controllers
             return Ok(await _userService.GetUserFavouritePlaces(userId));
         }
 
+        [HttpGet("reviews/{userId}", Name = "GetUserReviews")]
+        public async Task<ActionResult<List<ReviewDto>>> GetUserReviews(int userId)
+        {
+            return Ok(await _userService.GetUserReviews(userId));
+        }
+
     }
 }

@@ -128,5 +128,10 @@ namespace TouristNavigator.Application.Services
         {
             return await _placeRepository.CheckIfPlaceIsFavourite(placeId, userId);
         }
+
+        public async Task RemoveFavourite(int placeId, int userId)
+        {
+            await _placeRepository.RemoveFavourite(placeId, userId);
+        }
     }
 }

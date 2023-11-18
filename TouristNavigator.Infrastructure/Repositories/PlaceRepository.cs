@@ -52,5 +52,12 @@ namespace TouristNavigator.Infrastructure.Repositories
             await _context.SaveChangesAsync();
 
         }
+
+        public async Task RemoveFavourite(int placeId, int userId)
+        {
+            var place = await _context.Set<FavouriteUserPlace>().Where(p => p.PlaceId == placeId && p.UserId == userId).FirstOrDefaultAsync();
+            _context.Set<FavouriteUserPlace>().Remove(place);
+            await _context.SaveChangesAsync();
+        }
     }
 }

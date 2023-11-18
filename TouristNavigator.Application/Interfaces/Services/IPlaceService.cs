@@ -26,5 +26,6 @@ namespace TouristNavigator.Application.Interfaces.Services
         public Task SetPlaceAsFavourite(int placeId, int userId);
 
         public Task<bool> CheckIfPlaceIsFavourite(int placeId, int userId);
+        public Task RemoveFavourite(int placeId, int userId);
     }
 }

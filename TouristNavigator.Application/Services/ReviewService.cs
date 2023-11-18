@@ -50,6 +50,28 @@ namespace TouristNavigator.Application.Services
            
         }
 
+        public async Task DeleteReviewAsync(int reviewId)
+        {
+            var review = await _reviewRepository.GetAsync(reviewId);
+
+
+            var place = await _placeService.GetByIdAsync(review.PlaceId);
+            var placeReviews = await _placeService.GetPlaceReviews(review.PlaceId);
+            if ((placeReviews.Count - 1) != 0)
+            {
+                var rates = placeReviews.Select(r => r.ReviewValue).ToList();
+                var sum = rates.Sum() - review.ReviewValue;
+                place.Rating = sum / (rates.Count() - 1);
+            } 
+            else if((placeReviews.Count - 1) == 0)
+            {
+                place.Rating = 0;
+            }
+
+            await _placeService.UpdateAsync(place.toPlaceDto());
+            await _reviewRepository.DeleteAsync(review);
+        }
+
         public async Task<List<ReviewDto>> GetAllReviewsAsync()
         {
             var reviews = await _reviewRepository.GetAllAsync();

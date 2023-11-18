@@ -12,5 +12,6 @@ namespace TouristNavigator.Application.Interfaces.Services
     {
         public Task<Review> AddReviewAsync(ReviewDto review);
         public Task<List<ReviewDto>> GetAllReviewsAsync();
+        public Task DeleteReviewAsync(int reviewId);
     }
 }

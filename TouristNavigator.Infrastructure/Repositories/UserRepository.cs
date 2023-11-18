@@ -48,5 +48,10 @@ namespace TouristNavigator.Infrastructure.Repositories
             var categories = user.UserPreferences.Select(pc => pc.Category).ToList();
             return categories;
         }
+
+        public async Task<List<Review>> GetUserReviews(int userId)
+        {
+            return await _context.Set<Review>().Where(r => r.UserId == userId).ToListAsync();
+        }
     }
 }

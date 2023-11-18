@@ -14,5 +14,6 @@ namespace TouristNavigator.Application.Interfaces.Repositories
         Task<List<Category>> GetUserPreferences(int userId);
         Task DeleteUserPreference(int  userId, int categoryId);
         Task<List<Place>> GetUserFavouritePlaces(int userId);
+        Task<List<Review>> GetUserReviews(int userId);
     }
 }

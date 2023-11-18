@@ -166,7 +166,12 @@ namespace TouristNavigator.API.Controllers
             return Ok(await _placeService.CheckIfPlaceIsFavourite(placeId, userId));
         }
 
+        [HttpDelete("favourite/remove/{placeId}/{userId}", Name = "RemovePlaceFromFavourites")]
+        public async Task<ActionResult<bool>> RemovePlaceFromFavourites(int placeId, int userId)
+        {
+            await _placeService.RemoveFavourite(placeId, userId);
+            return Ok();
+        }
 
-        
     }
 }
