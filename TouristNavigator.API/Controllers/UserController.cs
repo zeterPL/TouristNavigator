@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System.Text.Json;
 using TouristNavigator.Application.Dto;
 using TouristNavigator.Application.Interfaces.Services;
 using TouristNavigator.Domain.Entities;
@@ -30,9 +31,25 @@ namespace TouristNavigator.API.Controllers
 
         
         [HttpPut("updateuser", Name = "UpdateUser")]
-        public async Task<ActionResult> UpdateUser(ApplicationUser user)
+        public async Task<ActionResult> UpdateUser(UpdateUserDto user)
         {
-            await _userService.UpdateAsync(user);
+            UpdateUserDto newRequest = new UpdateUserDto();
+            try
+            {
+                newRequest = user;
+                newRequest.UserName = JsonSerializer.Deserialize<string>(user.UserName);
+                newRequest.FirstName = JsonSerializer.Deserialize<string>(user.FirstName);
+                newRequest.LastName = JsonSerializer.Deserialize<string>(user.LastName);
+                newRequest.Email = JsonSerializer.Deserialize<string>(user.Email);
+               
+            }
+            catch (Exception ex)
+            {
+                newRequest = user;
+            }
+
+
+            await _userService.UpdateAsync(newRequest);
             return Ok();
         }
 

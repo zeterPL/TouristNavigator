@@ -77,9 +77,16 @@ namespace TouristNavigator.Application.Services
             return _userRepository.DeleteAsync(user);
         }
 
-        public Task UpdateAsync(ApplicationUser user)
+        public async Task UpdateAsync(UpdateUserDto userDto)
         {
-            return _userRepository.UpdateAsync(user);
+            var user = await _userRepository.GetAsync(userDto.Id);
+
+            user.FirstName = userDto.FirstName;
+            user.LastName = userDto.LastName;
+            user.Email = userDto.Email;
+            user.UserName = userDto.UserName;
+
+            await _userRepository.UpdateAsync(user);
         }
     }
 }

@@ -24,6 +24,7 @@ namespace TouristNavigator.Infrastructure.Security.Services
         public async Task<AuthenticationResponse> AuthenticateAsync(AuthenticationRequest request)
         {
             var user = await _userManager.FindByEmailAsync(request.Email);
+            if (user == null) { return null; }
 
             JwtSecurityToken token = await GenerateToken(user);
 
@@ -34,7 +35,10 @@ namespace TouristNavigator.Infrastructure.Security.Services
                 Email = user.Email,
                 Token = new JwtSecurityTokenHandler().WriteToken(token),
             };
-            return response;
+            if (user.Password == request.Password)
+                return response;
+            else
+                return null;
         }
 
         public async Task<RegistrationResponse> RegisterAsync(RegistrationRequest request)

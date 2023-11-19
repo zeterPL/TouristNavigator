@@ -12,7 +12,7 @@ namespace TouristNavigator.Application.Interfaces.Services
     {
         public Task<ApplicationUser> GetByIdAsync(int id);
         public Task<List<ApplicationUser>> GetAllAsync();
-        public Task UpdateAsync(ApplicationUser user);
+        public Task UpdateAsync(UpdateUserDto user);
         public Task RemoveAsync(ApplicationUser user);
         public Task<List<PlaceDto>> GetUserPlacesAsync(int userId);
         public Task AddUserPreference(int userId, int categoryId);

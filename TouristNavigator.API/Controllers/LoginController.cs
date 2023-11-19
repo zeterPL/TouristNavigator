@@ -36,7 +36,20 @@ namespace TouristNavigator.API.Controllers
         [HttpPost("Register", Name = "Register")]
         public async Task<ActionResult<RegistrationResponse>> RegisterAsync(RegistrationRequest request)
         {
-            return Ok(await _authenticationService.RegisterAsync(request));
+            RegistrationRequest newRequest = new RegistrationRequest();
+            try
+            {
+                newRequest = request;
+                newRequest.UserName = JsonSerializer.Deserialize<string>(request.UserName);
+                newRequest.Email = JsonSerializer.Deserialize<string>(request.Email);
+                newRequest.Password = JsonSerializer.Deserialize<string>(request.Password);
+            }
+            catch (Exception ex)
+            {
+                newRequest = request;
+            }
+
+            return Ok(await _authenticationService.RegisterAsync(newRequest));
         }
 
 

@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections;
+using System.Globalization;
 using System.Text;
 using System.Text.Json;
 using TouristNavigator.Application.Dto;
@@ -34,9 +36,9 @@ namespace TouristNavigator.API.Controllers
 
 
         [HttpPut("updateplace", Name = "UpdatePlace")]
-        public async Task<ActionResult> UpdatePlace(PlaceDto place)
+        public async Task<ActionResult> UpdatePlace(UpdatePlaceRequest place)
         {
-            PlaceDto newRequest = new PlaceDto();
+            UpdatePlaceRequest newRequest = new UpdatePlaceRequest();
             try
             {
                 newRequest = place;             
@@ -47,6 +49,8 @@ namespace TouristNavigator.API.Controllers
                 newRequest.Adress.Street = JsonSerializer.Deserialize<string>(place.Adress.Street);
                 newRequest.Adress.PostalCode = JsonSerializer.Deserialize<string>(place.Adress.PostalCode);
                 if(newRequest.Adress.LocalNumber != null) newRequest.Adress.LocalNumber = JsonSerializer.Deserialize<string>(place.Adress.LocalNumber);
+                newRequest.Latitude = JsonSerializer.Deserialize<string>(place.Latitude);
+                newRequest.Longitude = JsonSerializer.Deserialize<string>(place.Longitude);
                 newRequest.Url = JsonSerializer.Deserialize<string>(place.Url);
 
 
@@ -56,7 +60,20 @@ namespace TouristNavigator.API.Controllers
                 newRequest = place;
             }
 
-            await _placeService.UpdateAsync(newRequest);
+            PlaceDto placeDto = new PlaceDto
+            {
+                Id = newRequest.Id,
+                OwnerId = newRequest.OwnerId,
+                Name = newRequest.Name,
+                Description = newRequest.Description,
+                Latitude = double.Parse(newRequest.Latitude, System.Globalization.NumberStyles.Float, CultureInfo.InvariantCulture),
+                Longitude = double.Parse(newRequest.Longitude, System.Globalization.NumberStyles.Float, CultureInfo.InvariantCulture),
+                Url = newRequest.Url,
+                Adress = newRequest.Adress,        
+            };
+
+
+            await _placeService.UpdateAsync(placeDto);
             return Ok();
         }
 
@@ -82,6 +99,8 @@ namespace TouristNavigator.API.Controllers
                 newRequest.Adress.Street = JsonSerializer.Deserialize<string>(place.Adress.Street);
                 newRequest.Adress.PostalCode = JsonSerializer.Deserialize<string>(place.Adress.PostalCode);
                 newRequest.Adress.LocalNumber = JsonSerializer.Deserialize<string>(place.Adress.LocalNumber);           
+                newRequest.Latitude = JsonSerializer.Deserialize<string>(place.Latitude);           
+                newRequest.Longitude = JsonSerializer.Deserialize<string>(place.Longitude);           
                 newRequest.Url = JsonSerializer.Deserialize<string>(place.Url);
 
                
@@ -105,8 +124,8 @@ namespace TouristNavigator.API.Controllers
                 OwnerId = newRequest.OwnerId,
                 Name = newRequest.Name,
                 Description = newRequest.Description,
-                Latitude = newRequest.Latitude,
-                Longitude = newRequest.Longitude,
+                Latitude = double.Parse(newRequest.Latitude, System.Globalization.NumberStyles.Float, CultureInfo.InvariantCulture),
+                Longitude = double.Parse(newRequest.Longitude, System.Globalization.NumberStyles.Float, CultureInfo.InvariantCulture),
                 Url = newRequest.Url,
                 Adress = newRequest.Adress,
                 Photo = byteArray,
