@@ -26,6 +26,20 @@ namespace TouristNavigator.Infrastructure.Repositories
             await _context.SaveChangesAsync();
         }
 
+        public async Task<List<Place>> GetPlacesByUserPreferences(int userId)
+        {
+            var userPreferencesCategoriesIds = await _context.Set<UserPreferences>()
+                .Where(up => up.UserId == userId)
+                .Select(up => up.CategoryId)
+                .ToListAsync();
+
+            var places = await _context.Set<Place>()
+                .Where(p => p.Categories.Any(pc => userPreferencesCategoriesIds.Contains(pc.CategoryId)))
+                .ToListAsync();
+
+            return places;
+        }
+
         public async Task<List<Place>> GetUserFavouritePlaces(int userId)
         {
             var user = await _context.Set<ApplicationUser>().Include(u => u.FavouritePlaces)

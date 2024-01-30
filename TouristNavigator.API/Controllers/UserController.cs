@@ -79,6 +79,12 @@ namespace TouristNavigator.API.Controllers
             return Ok(await _userService.GetUserPreferences(userId));
         }
 
+        [HttpGet("preferences/places/{userId}")]
+        public async Task<ActionResult<List<PlaceDto>>> GetPlacesBasedOnUserPreferences(int userId)
+        {
+            return Ok(await _userService.GetPlacesBasedOnUserPreferences(userId));
+        }
+
         [HttpDelete("preferences/{userId}/{categoryId}", Name = "DeleteUserPreference")]
         public async Task<ActionResult> DeleteUserPreference(int userId, int categoryId)
         {

@@ -20,5 +20,6 @@ namespace TouristNavigator.Application.Interfaces.Services
         public Task DeleteUserPreference(int userId, int categoryId);
         public Task<List<PlaceDto>> GetUserFavouritePlaces(int userId);   
         public Task<List<ReviewDto>> GetUserReviews(int userId);
+        public Task<List<PlaceDto>> GetPlacesBasedOnUserPreferences(int userId);
     }
 }
